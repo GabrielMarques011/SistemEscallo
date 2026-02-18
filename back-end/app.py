@@ -1407,51 +1407,54 @@ if __name__ == '__main__':
     )
     
     # Inicializa cache na primeira execução
-    print("Inicializando cache para todos os setores...")
+    # print("Inicializando cache para todos os setores...")
     
     def inicializar_cache_com_retry():
         """Inicializa cache com retry em caso de falha"""
         max_retries = 3
         for tentativa in range(max_retries):
             try:
-                print(f"\n=== Tentativa {tentativa + 1} de {max_retries} ===")
+                # print(f"\n=== Tentativa {tentativa + 1} de {max_retries} ===")
                 
                 # Ordem de inicialização: primeiro os mais rápidos para cada setor
                 for setor in SETORES.keys():
-                    print(f"\nInicializando cache para setor: {setor}")
-                    print(f"  Quantidade de atendentes: {len(SETORES[setor])}")
-                    print(f"  Códigos: {[a['codigo'] for a in SETORES[setor]]}")
+                    # print(f"\nInicializando cache para setor: {setor}")
+                    # print(f"  Quantidade de atendentes: {len(SETORES[setor])}")
+                    # print(f"  Códigos: {[a['codigo'] for a in SETORES[setor]]}")
                     
                     for tipo in ['hoje', 'mes', '7dias']:
-                        print(f"    Inicializando cache para {tipo}...")
+                        # print(f"    Inicializando cache para {tipo}...")
                         dados = atualizar_cache(setor, tipo, force=True)
                         if dados:
-                            print(f"      ✅ {len(dados.get('data', []))} registros")
+                            # print(f"      ✅ {len(dados.get('data', []))} registros")
+                            pass
                         time.sleep(1)
+                        
                     
                     # Ligações ativas - inicia em background
-                    print(f"    Inicializando cache para ligacoesAtivasMes em background...")
+                    # print(f"    Inicializando cache para ligacoesAtivasMes em background...")
                     atualizar_cache_ligacoes_ativas_background(setor)
                     
                     # Ligações recuperadas - inicia em background
-                    print(f"    Inicializando cache para ligacoesRecuperadas em background...")
+                    # print(f"    Inicializando cache para ligacoesRecuperadas em background...")
                     atualizar_cache_ligacoes_recuperadas_background(setor)
                 
-                print("\n✅ Cache inicializado com sucesso para todos os setores!")
+                # print("\n✅ Cache inicializado com sucesso para todos os setores!")
                 return True
             except Exception as e:
-                print(f"\n❌ Erro na tentativa {tentativa + 1}: {str(e)}")
-                print(traceback.format_exc())
+                # print(f"\n❌ Erro na tentativa {tentativa + 1}: {str(e)}")
+                # print(traceback.format_exc())
                 if tentativa < max_retries - 1:
-                    print(f"Aguardando 10 segundos antes de tentar novamente...")
+                    # print(f"Aguardando 10 segundos antes de tentar novamente...")
                     time.sleep(10)
         
-        print("\n❌ Falha ao inicializar cache após todas as tentativas")
+        # print("\n❌ Falha ao inicializar cache após todas as tentativas")
         return False
     
     # Tenta inicializar o cache
     if not inicializar_cache_com_retry():
-        print("⚠️ AVISO: Sistema iniciado com cache vazio. O front-end pode não funcionar até a primeira atualização automática.")
+        # print("⚠️ AVISO: Sistema iniciado com cache vazio. O front-end pode não funcionar até a primeira atualização automática.")
+        pass
     
     # Inicia thread de atualização periódica
     iniciar_atualizador_periodico()
@@ -1461,28 +1464,29 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     debug = os.getenv('DEBUG', 'False').lower() == 'true'
     
-    print(f"\n{'='*50}")
-    print("🎯 Servidor Escallo Dashboard")
-    print(f"{'='*50}")
-    print(f"📡 Porta: {port}")
-    print(f"⏱️  Cache: {CACHE_DURATION_HOURS} hora(s)")
-    print(f"🔄 Background update: {BACKGROUND_UPDATE_ENABLED}")
-    print(f"🐛 Debug: {debug}")
-    print(f"👥 Setores: {', '.join(SETORES.keys())}")
+    # print(f"\n{'='*50}")
+    # print("🎯 Servidor Escallo Dashboard")
+    # print(f"{'='*50}")
+    # print(f"📡 Porta: {port}")
+    # print(f"⏱️  Cache: {CACHE_DURATION_HOURS} hora(s)")
+    # print(f"🔄 Background update: {BACKGROUND_UPDATE_ENABLED}")
+    # print(f"🐛 Debug: {debug}")
+    # print(f"👥 Setores: {', '.join(SETORES.keys())}")
     for setor, atendentes in SETORES.items():
-        print(f"   • {setor.capitalize()}: {len(atendentes)} atendentes")
-    print(f"🌐 Host Escallo: {HOST}")
-    print(f"\n🔗 Rotas disponíveis:")
-    print(f"   GET  /api/status                - Status do servidor")
-    print(f"   GET  /api/status-cache          - Status do cache")
-    print(f"   GET  /api/setores               - Lista de setores")
-    print(f"   GET  /api/debug                 - Informações de debug")
-    print(f"   GET  /api/teste-comercial       - Teste de dados do comercial")
-    print(f"   POST /api/limpar-cache          - Limpa o cache")
-    print(f"   GET  /api/dados/hoje?setor=...  - Dados do dia")
-    print(f"   GET  /api/dados/mes?setor=...   - Dados do mês")
-    print(f"   GET  /api/dados/ligacoes-ativas-mes?setor=... - Ligações ativas")
-    print(f"   GET  /api/dados/ligacoes-recuperadas?setor=... - Ligações recuperadas")
-    print(f"{'='*50}\n")
+        # print(f"   • {setor.capitalize()}: {len(atendentes)} atendentes")
+    # print(f"🌐 Host Escallo: {HOST}")
+    # print(f"\n🔗 Rotas disponíveis:")
+    # print(f"   GET  /api/status                - Status do servidor")
+    # print(f"   GET  /api/status-cache          - Status do cache")
+    # print(f"   GET  /api/setores               - Lista de setores")
+    # print(f"   GET  /api/debug                 - Informações de debug")
+    # print(f"   GET  /api/teste-comercial       - Teste de dados do comercial")
+    # print(f"   POST /api/limpar-cache          - Limpa o cache")
+    # print(f"   GET  /api/dados/hoje?setor=...  - Dados do dia")
+    # print(f"   GET  /api/dados/mes?setor=...   - Dados do mês")
+    # print(f"   GET  /api/dados/ligacoes-ativas-mes?setor=... - Ligações ativas")
+    # print(f"   GET  /api/dados/ligacoes-recuperadas?setor=... - Ligações recuperadas")
+    # print(f"{'='*50}\n")
+        pass
     
     app.run(host='0.0.0.0', port=port, debug=debug, use_reloader=False)

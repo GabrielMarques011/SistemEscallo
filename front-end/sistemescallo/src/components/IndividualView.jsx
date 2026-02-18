@@ -82,8 +82,8 @@ const IndividualView = ({
   const collaboratorToday = todayData?.data?.find(c => c.codigo === codigo);
   const collaboratorMonth = monthData?.data?.find(c => c.codigo === codigo);
   
-  console.log('collaboratorToday:', collaboratorToday);
-  console.log('collaboratorMonth:', collaboratorMonth);
+  // console.log('collaboratorToday:', collaboratorToday);
+  // console.log('collaboratorMonth:', collaboratorMonth);
   
   // Buscar ligações ativas com proteção
   let ligacoesAtivas = 0;
@@ -112,8 +112,8 @@ const IndividualView = ({
 
   const recuperadas = getLigacoesRecuperadasColaborador(codigo);
   
-  console.log('Dados de recuperação encontrados:', recuperadas);
-  console.log('ligacoesRecuperadasData estrutura:', ligacoesRecuperadasData);
+  // console.log('Dados de recuperação encontrados:', recuperadas);
+  // console.log('ligacoesRecuperadasData estrutura:', ligacoesRecuperadasData);
 
   // Se não encontrou nenhum dado do colaborador
   if (!collaboratorToday && !collaboratorMonth) {

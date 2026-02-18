@@ -26,14 +26,14 @@ function App() {
 
   // Função para mudar o setor
   const handleSetorChange = (novoSetor) => {
-    console.log(`Mudando setor de ${setor} para ${novoSetor}`);
+    /* console.log(`Mudando setor de ${setor} para ${novoSetor}`); */
     setSetor(novoSetor);
     localStorage.setItem('escallo_setor', novoSetor);
   };
 
   // Função de refresh que recebe um parâmetro para forçar refresh
   const handleRefresh = (forceRefresh = false) => {
-    console.log(`🔄 Refresh solicitado via Header, setor: ${setor}, force: ${forceRefresh}`);
+    /* console.log(`🔄 Refresh solicitado via Header, setor: ${setor}, force: ${forceRefresh}`); */
     refreshData(forceRefresh);
   };
 
@@ -47,7 +47,7 @@ function App() {
 
   // Efeito para debug quando o setor muda
   useEffect(() => {
-    console.log(`Setor alterado para: ${setor}`);
+    /* console.log(`Setor alterado para: ${setor}`); */
   }, [setor]);
 
   return (

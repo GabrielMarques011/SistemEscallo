@@ -11,9 +11,9 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error('API Error:', error.message);
-    console.error('URL:', error.config?.url);
-    console.error('Status:', error.response?.status);
+    // console.error('API Error:', error.message);
+    // console.error('URL:', error.config?.url);
+    // console.error('Status:', error.response?.status);
     return Promise.reject(error);
   }
 );
@@ -27,18 +27,18 @@ export const apiService = {
       if (forceRefresh) {
         params.force_refresh = 'true';
         params._t = new Date().getTime(); // Timestamp para evitar cache
-        console.log(`🟢🔄 TODAY DATA - FORÇANDO REFRESH para setor: ${setor}`);
+        // console.log(`🟢🔄 TODAY DATA - FORÇANDO REFRESH para setor: ${setor}`);
       } else {
-        console.log(`🟢 TODAY DATA - Consulta normal para setor: ${setor}`);
+        // console.log(`🟢 TODAY DATA - Consulta normal para setor: ${setor}`);
       }
       
-      console.log('📡 Parâmetros da requisição (hoje):', params);
+      // console.log('📡 Parâmetros da requisição (hoje):', params);
       const response = await api.get('/api/dados/hoje', { params });
-      console.log('✅ TODAY data recebida:', response.data?.data?.length || 0, 'registros');
-      console.log('🕐 Última atualização:', response.data?.atualizado_em || 'N/A');
+      // console.log('✅ TODAY data recebida:', response.data?.data?.length || 0, 'registros');
+      // console.log('🕐 Última atualização:', response.data?.atualizado_em || 'N/A');
       return response.data;
     } catch (error) {
-      console.error('🔴 Erro ao buscar dados de hoje:', error.message);
+      // console.error('🔴 Erro ao buscar dados de hoje:', error.message);
       return {
         data: [],
         totais: { ligacoesOferecidas: 0, ligacoesOferecidasAtendidas: 0, percentualOferecidasAtendidas: 0 },
@@ -55,17 +55,17 @@ export const apiService = {
       if (forceRefresh) {
         params.force_refresh = 'true';
         params._t = new Date().getTime(); // Timestamp para evitar cache
-        console.log(`🟠🔄 MONTH DATA - FORÇANDO REFRESH para setor: ${setor}`);
+        // console.log(`🟠🔄 MONTH DATA - FORÇANDO REFRESH para setor: ${setor}`);
       } else {
-        console.log(`🟠 MONTH DATA - Consulta normal para setor: ${setor}`);
+        // console.log(`🟠 MONTH DATA - Consulta normal para setor: ${setor}`);
       }
       
-      console.log('📡 Parâmetros da requisição (mês):', params);
+      // console.log('📡 Parâmetros da requisição (mês):', params);
       const response = await api.get('/api/dados/mes', { params });
-      console.log('✅ MONTH data recebida:', response.data?.data?.length || 0, 'registros');
+      // console.log('✅ MONTH data recebida:', response.data?.data?.length || 0, 'registros');
       return response.data;
     } catch (error) {
-      console.error('🔴 Erro ao buscar dados do mês:', error.message);
+      // console.error('🔴 Erro ao buscar dados do mês:', error.message);
       return {
         data: [],
         totais: { ligacoesOferecidas: 0, ligacoesOferecidasAtendidas: 0, percentualOferecidasAtendidas: 0 },
@@ -82,12 +82,12 @@ export const apiService = {
       if (forceRefresh) {
         params.force_refresh = 'true';
       }
-      console.log('🔵 Fetching last 7 days data with params:', params);
+      // console.log('🔵 Fetching last 7 days data with params:', params);
       const response = await api.get('/api/dados/ultimos-7-dias', { params });
-      console.log('✅ Last 7 days data received:', response.data?.data?.length || 0, 'records');
+      // console.log('✅ Last 7 days data received:', response.data?.data?.length || 0, 'records');
       return response.data;
     } catch (error) {
-      console.error('🔴 Error fetching last 7 days data:', error);
+      // console.error('🔴 Error fetching last 7 days data:', error);
       return null;
     }
   },
@@ -99,17 +99,17 @@ export const apiService = {
       if (forceRefresh) {
         params.force_refresh = 'true';
         params._t = new Date().getTime();
-        console.log(`🟣🔄 LIGAÇÕES ATIVAS - FORÇANDO REFRESH para setor: ${setor}`);
+        // console.log(`🟣🔄 LIGAÇÕES ATIVAS - FORÇANDO REFRESH para setor: ${setor}`);
       } else {
-        console.log(`🟣 LIGAÇÕES ATIVAS - Consulta normal para setor: ${setor}`);
+        // console.log(`🟣 LIGAÇÕES ATIVAS - Consulta normal para setor: ${setor}`);
       }
       
-      console.log('📡 Parâmetros da requisição (ativas):', params);
+      // console.log('📡 Parâmetros da requisição (ativas):', params);
       const response = await api.get('/api/dados/ligacoes-ativas-mes', { params });
-      console.log('✅ LIGAÇÕES ATIVAS recebidas:', response.data?.data?.length || 0, 'registros');
+      // console.log('✅ LIGAÇÕES ATIVAS recebidas:', response.data?.data?.length || 0, 'registros');
       return response.data;
     } catch (error) {
-      console.warn('⚠️ API de ligações ativas não disponível, usando fallback:', error.message);
+      // console.warn('⚠️ API de ligações ativas não disponível, usando fallback:', error.message);
       
       // Cria dados vazios como fallback, baseado no setor
       let atendentes = [];
@@ -163,12 +163,12 @@ export const apiService = {
       if (forceRefresh) {
         params.force_refresh = 'true';
         params._t = new Date().getTime(); // Timestamp para evitar cache
-        console.log(`🟡🔄 LIGAÇÕES RECUPERADAS - FORÇANDO REFRESH para setor: ${setor}`);
+        // console.log(`🟡🔄 LIGAÇÕES RECUPERADAS - FORÇANDO REFRESH para setor: ${setor}`);
       } else {
-        console.log(`🟡 LIGAÇÕES RECUPERADAS - Consulta normal para setor: ${setor}`);
+        // console.log(`🟡 LIGAÇÕES RECUPERADAS - Consulta normal para setor: ${setor}`);
       }
       
-      console.log('📡 Parâmetros da requisição (recuperadas):', params);
+      // console.log('📡 Parâmetros da requisição (recuperadas):', params);
       const response = await api.get('/api/dados/ligacoes-recuperadas', { params });
       console.log('✅ LIGAÇÕES RECUPERADAS recebidas:', {
         dia: response.data?.dia?.length || 0,
@@ -177,7 +177,7 @@ export const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.warn('⚠️ API de ligações recuperadas não disponível, usando fallback:', error.message);
+      // console.warn('⚠️ API de ligações recuperadas não disponível, usando fallback:', error.message);
       
       // Cria dados vazios como fallback, baseado no setor
       let atendentes = [];
