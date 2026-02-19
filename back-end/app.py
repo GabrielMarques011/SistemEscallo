@@ -119,7 +119,7 @@ def buscar_dados_escallo(data_inicial, data_final):
     }
     
     try:
-        app.logger.info(f"📤 Buscando dados da API Escallo: {data_inicial} a {data_final}")
+        # app.logger.info(f"📤 Buscando dados da API Escallo: {data_inicial} a {data_final}")
         response = requests.post(API_URL, json=payload, headers=headers, timeout=30)
         
         if response.status_code != 200:
@@ -130,13 +130,14 @@ def buscar_dados_escallo(data_inicial, data_final):
         
         if 'data' in data and 'registros' in data['data']:
             registros = data['data']['registros']
-            app.logger.info(f"✅ Dados recebidos da API: {len(registros)} registros")
+            # app.logger.info(f"✅ Dados recebidos da API: {len(registros)} registros")
             
             # Log dos primeiros registros para debug
             if registros:
                 for i, registro in enumerate(registros[:3]):
                     if isinstance(registro, dict):
-                        app.logger.info(f"📝 Registro {i+1}: Código: {registro.get('codigo', 'N/A')}, Nome: {registro.get('nome', 'N/A')}")
+                        # app.logger.info(f"📝 Registro {i+1}: Código: {registro.get('codigo', 'N/A')}, Nome: {registro.get('nome', 'N/A')}")
+                        pass
             
             return registros
         else:
@@ -207,13 +208,13 @@ def buscar_dados_ligacoes_ativas(data_inicial, data_final, progress_callback=Non
             registros_pagina = data['data']['registros']
             
             if not registros_pagina:
-                app.logger.info(f"Página {pagina} vazia - encerrando paginação")
+                # app.logger.info(f"Página {pagina} vazia - encerrando paginação")
                 break
             
             todos_registros.extend(registros_pagina)
             
             if len(registros_pagina) < registros_por_pagina:
-                app.logger.info(f"Última página detectada (página {pagina} tem {len(registros_pagina)} registros)")
+                # app.logger.info(f"Última página detectada (página {pagina} tem {len(registros_pagina)} registros)")
                 break
             
             pagina += 1
@@ -239,7 +240,7 @@ def buscar_dados_ligacoes_ativas(data_inicial, data_final, progress_callback=Non
                 app.logger.warning(f"Erro na página {pagina}, retornando dados parciais: {str(e)}")
                 break
     
-    app.logger.info(f"Total de registros coletados do rel003: {len(todos_registros)} após {pagina + 1} páginas")
+    # app.logger.info(f"Total de registros coletados do rel003: {len(todos_registros)} após {pagina + 1} páginas")
     
     if progress_callback:
         progress_callback(100)
@@ -278,26 +279,27 @@ def buscar_dados_ligacoes_recuperadas(data_inicial, data_final, progress_callbac
             
             # LOG PARA VER ESTRUTURA DA RESPOSTA
             if pagina == 0:
-                app.logger.info(f"📦 ESTRUTURA DA RESPOSTA (página 0):")
-                app.logger.info(f"   Tipo de data: {type(data)}")
+                # app.logger.info(f"📦 ESTRUTURA DA RESPOSTA (página 0):")
+                # app.logger.info(f"   Tipo de data: {type(data)}")
                 if 'data' in data:
-                    app.logger.info(f"   Tem 'data': Sim")
+                    # app.logger.info(f"   Tem 'data': Sim")
                     if 'registros' in data['data']:
                         registros = data['data']['registros']
-                        app.logger.info(f"   Tem 'registros': Sim")
-                        app.logger.info(f"   Tipo de registros: {type(registros)}")
+                        # app.logger.info(f"   Tem 'registros': Sim")
+                        # app.logger.info(f"   Tipo de registros: {type(registros)}")
                         if isinstance(registros, dict):
-                            app.logger.info(f"   Quantidade de registros: {len(registros)}")
+                            # app.logger.info(f"   Quantidade de registros: {len(registros)}")
                             # Mostrar primeiro registro
                             if registros:
                                 primeira_chave = list(registros.keys())[0]
                                 primeiro_valor = registros[primeira_chave]
-                                app.logger.info(f"   Primeiro registro:")
-                                app.logger.info(f"     Chave: {primeira_chave}")
-                                app.logger.info(f"     Valor tipo: {type(primeiro_valor)}")
+                                # app.logger.info(f"   Primeiro registro:")
+                                # app.logger.info(f"     Chave: {primeira_chave}")
+                                # app.logger.info(f"     Valor tipo: {type(primeiro_valor)}")
                                 if isinstance(primeiro_valor, dict):
                                     for k, v in primeiro_valor.items():
-                                        app.logger.info(f"     {k}: {repr(v)}")
+                                        # app.logger.info(f"     {k}: {repr(v)}")
+                                        pass
             
             if 'data' not in data or 'registros' not in data['data']:
                 app.logger.error(f"Estrutura inválida na página {pagina}")
@@ -309,10 +311,10 @@ def buscar_dados_ligacoes_recuperadas(data_inicial, data_final, progress_callbac
             # Se for dicionário, precisamos extrair os valores
             if isinstance(registros_pagina, dict):
                 valores = list(registros_pagina.values())
-                app.logger.info(f"📄 Página {pagina}: Extraindo {len(valores)} valores de dicionário")
+                # app.logger.info(f"📄 Página {pagina}: Extraindo {len(valores)} valores de dicionário")
                 todos_registros.extend(valores)
             else:
-                app.logger.info(f"📄 Página {pagina}: {len(registros_pagina)} registros")
+                # app.logger.info(f"📄 Página {pagina}: {len(registros_pagina)} registros")
                 todos_registros.extend(registros_pagina)
             
             if not registros_pagina or (isinstance(registros_pagina, dict) and len(registros_pagina) < registros_por_pagina) or (not isinstance(registros_pagina, dict) and len(registros_pagina) < registros_por_pagina):
@@ -326,26 +328,27 @@ def buscar_dados_ligacoes_recuperadas(data_inicial, data_final, progress_callbac
             app.logger.error(f"Erro na página {pagina}: {str(e)}")
             break
     
-    app.logger.info(f"✅ Total de registros coletados: {len(todos_registros)}")
+    # app.logger.info(f"✅ Total de registros coletados: {len(todos_registros)}")
     
     # Log dos primeiros registros
     if todos_registros:
-        app.logger.info("📝 PRIMEIROS REGISTROS COLETADOS:")
+        # app.logger.info("📝 PRIMEIROS REGISTROS COLETADOS:")
         for i in range(min(3, len(todos_registros))):
             registro = todos_registros[i]
-            app.logger.info(f"  Registro {i}: {type(registro)}")
+            # app.logger.info(f"  Registro {i}: {type(registro)}")
             if isinstance(registro, dict):
                 for key in ['agente', 'origem', 'status', 'data']:
-                    app.logger.info(f"    {key}: {repr(registro.get(key))}")
+                    # app.logger.info(f"    {key}: {repr(registro.get(key))}")
+                    pass
     
     return todos_registros
 
 def processar_dados(atendentes, resultados_api, cache_key=None, setor=None):
     """Processa os dados dos atendentes com informações de cache"""
-    app.logger.info(f"🔍 PROCESSAR DADOS para setor: {setor}")
-    app.logger.info(f"📊 Total de atendentes configurados: {len(atendentes)}")
-    app.logger.info(f"📊 Códigos dos atendentes: {[a['codigo'] for a in atendentes]}")
-    app.logger.info(f"📊 Total de registros da API: {len(resultados_api)}")
+    # app.logger.info(f"🔍 PROCESSAR DADOS para setor: {setor}")
+    # app.logger.info(f"📊 Total de atendentes configurados: {len(atendentes)}")
+    # app.logger.info(f"📊 Códigos dos atendentes: {[a['codigo'] for a in atendentes]}")
+    # app.logger.info(f"📊 Total de registros da API: {len(resultados_api)}")
     
     # Se resultados_api for um dict com erro, retorna dados zerados
     if isinstance(resultados_api, dict) and 'error' in resultados_api:
@@ -376,7 +379,7 @@ def processar_dados(atendentes, resultados_api, cache_key=None, setor=None):
                 if codigo not in codigos_api:
                     codigos_api.append(codigo)
         
-        app.logger.info(f"🔍 Códigos encontrados na API: {codigos_api[:10]}")
+        # app.logger.info(f"🔍 Códigos encontrados na API: {codigos_api[:10]}")
         
         # Contadores para debug
         encontrados = 0
@@ -431,7 +434,7 @@ def processar_dados(atendentes, resultados_api, cache_key=None, setor=None):
                     'chamadasPorHora': 0
                 })
         
-        app.logger.info(f"📊 Estatísticas: {encontrados} encontrados, {nao_encontrados} não encontrados")
+        # app.logger.info(f"📊 Estatísticas: {encontrados} encontrados, {nao_encontrados} não encontrados")
     
     # Calcular totais
     total_oferecidas = sum(r['ligacoesOferecidas'] for r in resultados_finais)
@@ -458,13 +461,13 @@ def processar_dados(atendentes, resultados_api, cache_key=None, setor=None):
         'setor': setor
     }
     
-    app.logger.info(f"✅ Processamento concluído para setor {setor}: {len(resultados_finais)} registros")
+    # app.logger.info(f"✅ Processamento concluído para setor {setor}: {len(resultados_finais)} registros")
     return resultado
 
 def processar_dados_ligacoes_ativas(atendentes, resultados_api, cache_key=None, setor=None):
     """Processa os dados de ligações ativas (atendidas) do rel003"""
-    app.logger.info(f"🔍 PROCESSAR LIGAÇÕES ATIVAS para setor: {setor}")
-    app.logger.info(f"📊 Atendentes: {len(atendentes)}, Registros API: {len(resultados_api)}")
+    # app.logger.info(f"🔍 PROCESSAR LIGAÇÕES ATIVAS para setor: {setor}")
+    # app.logger.info(f"📊 Atendentes: {len(atendentes)}, Registros API: {len(resultados_api)}")
     
     # Dicionário para contar ligações por atendente
     contador_ligacoes = {atendente['codigo']: 0 for atendente in atendentes}
@@ -514,32 +517,34 @@ def processar_dados_ligacoes_ativas(atendentes, resultados_api, cache_key=None, 
         'setor': setor
     }
     
-    app.logger.info(f"✅ Ligações ativas processadas para setor {setor}: {len(resultados_finais)} registros, total {total_geral}")
+    # app.logger.info(f"✅ Ligações ativas processadas para setor {setor}: {len(resultados_finais)} registros, total {total_geral}")
     return resultado
 
 def processar_dados_ligacoes_recuperadas(atendentes, resultados_api, cache_key=None, setor=None):
     """DEBUG COMPLETO - Processa os dados de ligações recuperadas"""
-    app.logger.info(f"🔍 DEBUG LIGAÇÕES RECUPERADAS - Setor: {setor}")
+    # app.logger.info(f"🔍 DEBUG LIGAÇÕES RECUPERADAS - Setor: {setor}")
     
     # 1. Verificar estrutura dos resultados_api
-    app.logger.info(f"📊 TIPO de resultados_api: {type(resultados_api)}")
-    app.logger.info(f"📊 LEN de resultados_api: {len(resultados_api) if hasattr(resultados_api, '__len__') else 'N/A'}")
+    # app.logger.info(f"📊 TIPO de resultados_api: {type(resultados_api)}")
+    # app.logger.info(f"📊 LEN de resultados_api: {len(resultados_api) if hasattr(resultados_api, '__len__') else 'N/A'}")
     
     # 2. Amostra detalhada dos primeiros registros
     if resultados_api and hasattr(resultados_api, '__len__'):
-        app.logger.info("🔎 AMOSTRA DETALHADA DOS PRIMEIROS 3 REGISTROS:")
+        # app.logger.info("🔎 AMOSTRA DETALHADA DOS PRIMEIROS 3 REGISTROS:")
         for i in range(min(3, len(resultados_api))):
             registro = resultados_api[i]
-            app.logger.info(f"  --- Registro {i} ---")
-            app.logger.info(f"  Tipo: {type(registro)}")
+            # app.logger.info(f"  --- Registro {i} ---")
+            # app.logger.info(f"  Tipo: {type(registro)}")
             if isinstance(registro, dict):
                 for key, value in registro.items():
-                    app.logger.info(f"  {key}: {repr(value)}")
+                    # app.logger.info(f"  {key}: {repr(value)}")
+                    pass
             else:
-                app.logger.info(f"  Conteúdo: {repr(registro)}")
+                # app.logger.info(f"  Conteúdo: {repr(registro)}")
+                pass
     
     # 3. Verificar TODOS os registros que têm "Alison" no agente
-    app.logger.info("🔍 BUSCANDO TODOS OS REGISTROS COM 'ALISON':")
+    # app.logger.info("🔍 BUSCANDO TODOS OS REGISTROS COM 'ALISON':")
     registros_alison = []
     if resultados_api and hasattr(resultados_api, '__len__'):
         for i, registro in enumerate(resultados_api):
@@ -548,16 +553,17 @@ def processar_dados_ligacoes_recuperadas(atendentes, resultados_api, cache_key=N
                 if 'alison' in str(agente).lower():
                     registros_alison.append((i, registro))
     
-    app.logger.info(f"📊 Total de registros com 'Alison': {len(registros_alison)}")
+    # app.logger.info(f"📊 Total de registros com 'Alison': {len(registros_alison)}")
     for i, registro in registros_alison:
-        app.logger.info(f"  Registro {i}:")
-        app.logger.info(f"    Agente: {registro.get('agente')}")
-        app.logger.info(f"    Origem: {registro.get('origem')}")
-        app.logger.info(f"    Status: {registro.get('status')}")
-        app.logger.info(f"    Data: {registro.get('data')}")
+        # app.logger.info(f"  Registro {i}:")
+        # app.logger.info(f"    Agente: {registro.get('agente')}")
+        # app.logger.info(f"    Origem: {registro.get('origem')}")
+        # app.logger.info(f"    Status: {registro.get('status')}")
+        # app.logger.info(f"    Data: {registro.get('data')}")
     
     # 4. Verificar se há registros com status "Concluído" (qualquer agente)
-    app.logger.info("🔍 VERIFICANDO REGISTROS COM STATUS 'CONCLUÍDO':")
+    # app.logger.info("🔍 VERIFICANDO REGISTROS COM STATUS 'CONCLUÍDO':")
+        pass
     registros_concluidos = []
     if resultados_api and hasattr(resultados_api, '__len__'):
         for i, registro in enumerate(resultados_api):
@@ -566,18 +572,20 @@ def processar_dados_ligacoes_recuperadas(atendentes, resultados_api, cache_key=N
                 if status == 'Concluído':
                     registros_concluidos.append((i, registro))
     
-    app.logger.info(f"📊 Total de registros com status 'Concluído': {len(registros_concluidos)}")
+    # app.logger.info(f"📊 Total de registros com status 'Concluído': {len(registros_concluidos)}")
     for i, registro in registros_concluidos[:5]:  # Primeiros 5
-        app.logger.info(f"  Registro {i}:")
-        app.logger.info(f"    Agente: {registro.get('agente')}")
-        app.logger.info(f"    Origem: {registro.get('origem')}")
-        app.logger.info(f"    Status: {registro.get('status')}")
-        app.logger.info(f"    Data: {registro.get('data')}")
+        # app.logger.info(f"  Registro {i}:")
+        # app.logger.info(f"    Agente: {registro.get('agente')}")
+        # app.logger.info(f"    Origem: {registro.get('origem')}")
+        # app.logger.info(f"    Status: {registro.get('status')}")
+        # app.logger.info(f"    Data: {registro.get('data')}")
     
     # 5. Verificar códigos dos atendentes
-    app.logger.info("📋 LISTA DE ATENDENTES DO SETOR:")
+    # app.logger.info("📋 LISTA DE ATENDENTES DO SETOR:")
+        pass
     for atendente in atendentes:
-        app.logger.info(f"  {atendente['nome']} - Código: {atendente['codigo']}")
+        # app.logger.info(f"  {atendente['nome']} - Código: {atendente['codigo']}")
+        pass
     
     # 6. Agora processar de fato
     contador_ligacoes_dia = {atendente['codigo']: 0 for atendente in atendentes}
@@ -638,18 +646,18 @@ def processar_dados_ligacoes_recuperadas(atendentes, resultados_api, cache_key=N
                 app.logger.warning(f"Erro data registro {i}: {e}")
     
     # 7. Log dos resultados
-    app.logger.info("📊 RESULTADO DO PROCESSAMENTO:")
-    app.logger.info(f"  Total de registros: {len(resultados_api) if resultados_api else 0}")
-    app.logger.info(f"  Total processados: {total_processados}")
-    app.logger.info(f"  Match encontrados: {match_encontrados}")
+    # app.logger.info("📊 RESULTADO DO PROCESSAMENTO:")
+    # app.logger.info(f"  Total de registros: {len(resultados_api) if resultados_api else 0}")
+    # app.logger.info(f"  Total processados: {total_processados}")
+    # app.logger.info(f"  Match encontrados: {match_encontrados}")
     
-    app.logger.info("📊 CONTAGEM FINAL POR ATENDENTE:")
+    # app.logger.info("📊 CONTAGEM FINAL POR ATENDENTE:")
     for codigo in sorted(contador_ligacoes_dia.keys()):
         count_dia = contador_ligacoes_dia[codigo]
         count_mes = contador_ligacoes_mes[codigo]
         if count_dia > 0 or count_mes > 0:
             nome = next((a['nome'] for a in atendentes if a['codigo'] == codigo), codigo)
-            app.logger.info(f"  {nome} ({codigo}): Dia={count_dia}, Mês={count_mes}")
+            # app.logger.info(f"  {nome} ({codigo}): Dia={count_dia}, Mês={count_mes}")
     
     # 8. Criar resultados
     resultados_dia = []
@@ -716,7 +724,7 @@ def atualizar_cache_ligacoes_ativas_background(setor):
     """Atualiza o cache de ligações ativas em background para um setor específico"""
     with background_lock:
         if background_tasks[setor]['ligacoesAtivasMes']['is_running']:
-            app.logger.info(f"Atualização de ligações ativas para {setor} já está em execução")
+            # app.logger.info(f"Atualização de ligações ativas para {setor} já está em execução")
             return
         
         background_tasks[setor]['ligacoesAtivasMes']['is_running'] = True
@@ -730,7 +738,7 @@ def atualizar_cache_ligacoes_ativas_background(setor):
     
     def executar_atualizacao():
         try:
-            app.logger.info(f"🎬 Iniciando atualização em background de ligações ativas para {setor}...")
+            # app.logger.info(f"🎬 Iniciando atualização em background de ligações ativas para {setor}...")
             
             # Definição de período
             hoje = datetime.now()
@@ -761,7 +769,7 @@ def atualizar_cache_ligacoes_ativas_background(setor):
                 cache[setor]['ligacoesAtivasMes']['hash'] = calcular_hash(dados_processados)
                 cache[setor]['ligacoesAtivasMes']['periodo'] = f"{data_inicial} a {data_final}"
             
-            app.logger.info(f"✅ Atualização em background de ligações ativas para {setor} concluída com sucesso!")
+            # app.logger.info(f"✅ Atualização em background de ligações ativas para {setor} concluída com sucesso!")
             
         except Exception as e:
             app.logger.error(f"❌ Erro na atualização em background para {setor}: {str(e)}")
@@ -782,7 +790,7 @@ def atualizar_cache_ligacoes_recuperadas_background(setor):
     """Atualiza o cache de ligações recuperadas em background para um setor específico"""
     with background_lock:
         if background_tasks[setor]['ligacoesRecuperadas']['is_running']:
-            app.logger.info(f"Atualização de ligações recuperadas para {setor} já está em execução")
+            # app.logger.info(f"Atualização de ligações recuperadas para {setor} já está em execução")
             return
         
         background_tasks[setor]['ligacoesRecuperadas']['is_running'] = True
@@ -796,7 +804,7 @@ def atualizar_cache_ligacoes_recuperadas_background(setor):
     
     def executar_atualizacao():
         try:
-            app.logger.info(f"🎬 Iniciando atualização em background de ligações recuperadas para {setor}...")
+            # app.logger.info(f"🎬 Iniciando atualização em background de ligações recuperadas para {setor}...")
             
             # Buscar dados do mês inteiro
             hoje = datetime.now()
@@ -825,7 +833,7 @@ def atualizar_cache_ligacoes_recuperadas_background(setor):
                 cache[setor]['ligacoesRecuperadas']['hash'] = calcular_hash(dados_processados)
                 cache[setor]['ligacoesRecuperadas']['periodo'] = f"{data_inicial} a {data_final}"
             
-            app.logger.info(f"✅ Atualização em background de ligações recuperadas para {setor} concluída!")
+            # app.logger.info(f"✅ Atualização em background de ligações recuperadas para {setor} concluída!")
             
         except Exception as e:
             app.logger.error(f"❌ Erro na atualização em background de ligações recuperadas para {setor}: {str(e)}")
@@ -848,13 +856,14 @@ def atualizar_cache(setor, tipo, force=False, background=False):
         app.logger.error(f"❌ Setor {setor} não encontrado")
         return None
     
-    app.logger.info(f"🔄 ATUALIZAR_CACHE chamado - Setor: {setor}, Tipo: {tipo}, Force: {force}")
+    # app.logger.info(f"🔄 ATUALIZAR_CACHE chamado - Setor: {setor}, Tipo: {tipo}, Force: {force}")
     
     # Para ligações ativas, se for forçar e background estiver habilitado, usar background
     if tipo == 'ligacoesAtivasMes' and force and BACKGROUND_UPDATE_ENABLED:
         with background_lock:
             if background_tasks[setor]['ligacoesAtivasMes']['is_running']:
-                app.logger.info(f"Atualização em background para {setor} já está em execução, aguardando...")
+                # app.logger.info(f"Atualização em background para {setor} já está em execução, aguardando...")
+                pass
             else:
                 atualizar_cache_ligacoes_ativas_background(setor)
         
@@ -864,7 +873,8 @@ def atualizar_cache(setor, tipo, force=False, background=False):
     if tipo == 'ligacoesRecuperadas' and force and BACKGROUND_UPDATE_ENABLED:
         with background_lock:
             if background_tasks[setor]['ligacoesRecuperadas']['is_running']:
-                app.logger.info(f"Atualização em background de ligações recuperadas para {setor} já está em execução")
+                # app.logger.info(f"Atualização em background de ligações recuperadas para {setor} já está em execução")
+                pass
             else:
                 atualizar_cache_ligacoes_recuperadas_background(setor)
         
@@ -884,15 +894,15 @@ def atualizar_cache(setor, tipo, force=False, background=False):
         
         if precisa_atualizar:
             try:
-                app.logger.info(f"🔄 Atualizando cache para {setor} - {tipo}")
+                # app.logger.info(f"🔄 Atualizando cache para {setor} - {tipo}")
                 
                 hoje = datetime.now()
                 resultados_api = []
                 periodo = ""
                 atendentes = SETORES.get(setor, [])
                 
-                app.logger.info(f"📋 Atendentes do setor {setor}: {len(atendentes)}")
-                app.logger.info(f"📋 Códigos: {[a['codigo'] for a in atendentes]}")
+                # app.logger.info(f"📋 Atendentes do setor {setor}: {len(atendentes)}")
+                # app.logger.info(f"📋 Códigos: {[a['codigo'] for a in atendentes]}")
                 
                 if tipo == 'hoje':
                     data_hoje = hoje.strftime('%Y-%m-%d')
@@ -957,7 +967,7 @@ def atualizar_cache(setor, tipo, force=False, background=False):
                 cache[setor][tipo]['hash'] = calcular_hash(dados_processados)
                 cache[setor][tipo]['periodo'] = periodo
                 
-                app.logger.info(f"✅ Cache {setor} - {tipo} atualizado com sucesso: {len(dados_processados.get('data', []))} registros")
+                # app.logger.info(f"✅ Cache {setor} - {tipo} atualizado com sucesso: {len(dados_processados.get('data', []))} registros")
                 return dados_processados
                 
             except Exception as e:
@@ -973,7 +983,7 @@ def atualizar_cache(setor, tipo, force=False, background=False):
                     else:
                         return processar_dados(atendentes, [], cache_key, setor)
         
-        app.logger.info(f"📦 Retornando dados do cache para {setor} - {tipo}")
+        # app.logger.info(f"📦 Retornando dados do cache para {setor} - {tipo}")
         return cache[setor][tipo]['data']
 
 def iniciar_atualizador_periodico():
@@ -993,7 +1003,7 @@ def iniciar_atualizador_periodico():
     
     thread = threading.Thread(target=atualizador, daemon=True)
     thread.start()
-    app.logger.info("Atualizador periódico iniciado para todos os setores")
+    # app.logger.info("Atualizador periódico iniciado para todos os setores")
 
 def iniciar_atualizador_ligacoes_background():
     """Inicia thread para atualização periódica de ligações ativas em background para todos os setores"""
@@ -1005,7 +1015,7 @@ def iniciar_atualizador_ligacoes_background():
                 for setor in SETORES.keys():
                     with background_lock:
                         if background_tasks[setor]['ligacoesAtivasMes']['is_running']:
-                            app.logger.info(f"Atualização de ligações para {setor} já está em execução, pulando...")
+                            # app.logger.info(f"Atualização de ligações para {setor} já está em execução, pulando...")
                             continue
                     
                     atualizar_cache_ligacoes_ativas_background(setor)
@@ -1017,7 +1027,7 @@ def iniciar_atualizador_ligacoes_background():
     
     thread = threading.Thread(target=atualizador_ligacoes, daemon=True)
     thread.start()
-    app.logger.info("Atualizador periódico de ligações ativas iniciado para todos os setores")
+    # app.logger.info("Atualizador periódico de ligações ativas iniciado para todos os setores")
 
 def iniciar_atualizador_ligacoes_recuperadas_background():
     """Inicia thread para atualização periódica de ligações recuperadas em background para todos os setores"""
@@ -1029,7 +1039,7 @@ def iniciar_atualizador_ligacoes_recuperadas_background():
                 for setor in SETORES.keys():
                     with background_lock:
                         if background_tasks[setor]['ligacoesRecuperadas']['is_running']:
-                            app.logger.info(f"Atualização de ligações recuperadas para {setor} já está em execução, pulando...")
+                            # app.logger.info(f"Atualização de ligações recuperadas para {setor} já está em execução, pulando...")
                             continue
                     
                     atualizar_cache_ligacoes_recuperadas_background(setor)
@@ -1041,7 +1051,7 @@ def iniciar_atualizador_ligacoes_recuperadas_background():
     
     thread = threading.Thread(target=atualizador_ligacoes_recuperadas, daemon=True)
     thread.start()
-    app.logger.info("Atualizador periódico de ligações recuperadas iniciado para todos os setores")
+    # app.logger.info("Atualizador periódico de ligações recuperadas iniciado para todos os setores")
 
 # ==================== ROTAS DA API ====================
 
@@ -1049,7 +1059,7 @@ def iniciar_atualizador_ligacoes_recuperadas_background():
 def teste_ligacoes_recuperadas():
     """Rota de teste direto para debug"""
     hoje = datetime.now().strftime('%Y-%m-%d')
-    app.logger.info(f"🧪 TESTE DIRETO LIGAÇÕES RECUPERADAS - {hoje}")
+    # app.logger.info(f"🧪 TESTE DIRETO LIGAÇÕES RECUPERADAS - {hoje}")
     
     resultados = buscar_dados_ligacoes_recuperadas(hoje, hoje)
     
@@ -1115,13 +1125,13 @@ def debug_info():
 def dados_mes():
     """Rota para obter dados do mês atual"""
     setor = request.args.get(SETOR_PARAM, 'suporte')
-    app.logger.info(f"📥 /api/dados/mes - Setor recebido: {setor}")
+    # app.logger.info(f"📥 /api/dados/mes - Setor recebido: {setor}")
     force = request.args.get(FORCE_REFRESH_PARAM, 'false').lower() == 'true'
     dados = atualizar_cache(setor, 'mes', force=force)
     
     if dados:
         dados['setor'] = setor
-        app.logger.info(f"📤 Respondendo /api/dados/mes: {len(dados.get('data', []))} registros para setor {setor}")
+        # app.logger.info(f"📤 Respondendo /api/dados/mes: {len(dados.get('data', []))} registros para setor {setor}")
         return jsonify(dados)
     else:
         app.logger.error(f"❌ Setor {setor} não encontrado em /api/dados/mes")
@@ -1131,13 +1141,13 @@ def dados_mes():
 def dados_hoje():
     """Rota para obter dados do dia atual"""
     setor = request.args.get(SETOR_PARAM, 'suporte')
-    app.logger.info(f"📥 /api/dados/hoje - Setor recebido: {setor}")
+    # app.logger.info(f"📥 /api/dados/hoje - Setor recebido: {setor}")
     force = request.args.get(FORCE_REFRESH_PARAM, 'false').lower() == 'true'
     dados = atualizar_cache(setor, 'hoje', force=force)
     
     if dados:
         dados['setor'] = setor
-        app.logger.info(f"📤 Respondendo /api/dados/hoje: {len(dados.get('data', []))} registros para setor {setor}")
+        # app.logger.info(f"📤 Respondendo /api/dados/hoje: {len(dados.get('data', []))} registros para setor {setor}")
         return jsonify(dados)
     else:
         app.logger.error(f"❌ Setor {setor} não encontrado em /api/dados/hoje")
@@ -1161,7 +1171,7 @@ def dados_ligacoes_ativas_mes():
     """Rota para obter o total de ligações ativas (atendidas) no mês, por atendente"""
     try:
         setor = request.args.get(SETOR_PARAM, 'suporte')
-        app.logger.info(f"📥 /api/dados/ligacoes-ativas-mes - Setor recebido: {setor}")
+        # app.logger.info(f"📥 /api/dados/ligacoes-ativas-mes - Setor recebido: {setor}")
         force = request.args.get(FORCE_REFRESH_PARAM, 'false').lower() == 'true'
         
         dados = atualizar_cache(setor, 'ligacoesAtivasMes', force=force, background=True)
@@ -1177,7 +1187,7 @@ def dados_ligacoes_ativas_mes():
                 }
                 dados['setor'] = setor
             
-            app.logger.info(f"📤 Respondendo /api/dados/ligacoes-ativas-mes: {len(dados.get('data', []))} registros para setor {setor}")
+            # app.logger.info(f"📤 Respondendo /api/dados/ligacoes-ativas-mes: {len(dados.get('data', []))} registros para setor {setor}")
             return jsonify(dados)
         else:
             app.logger.error(f"❌ Setor {setor} não encontrado em /api/dados/ligacoes-ativas-mes")
@@ -1193,14 +1203,15 @@ def dados_ligacoes_recuperadas():
     """Rota para obter o total de ligações recuperadas no dia e no mês, por atendente"""
     try:
         setor = request.args.get(SETOR_PARAM, 'suporte')
-        app.logger.info(f"📥 /api/dados/ligacoes-recuperadas - Setor recebido: {setor}")
+        # app.logger.info(f"📥 /api/dados/ligacoes-recuperadas - Setor recebido: {setor}")
         force = request.args.get(FORCE_REFRESH_PARAM, 'false').lower() == 'true'
         
         # Para ligações recuperadas, usar background se for forçar
         if force and BACKGROUND_UPDATE_ENABLED:
             with background_lock:
                 if background_tasks[setor]['ligacoesRecuperadas']['is_running']:
-                    app.logger.info(f"Atualização em background para {setor} já está em execução")
+                    # app.logger.info(f"Atualização em background para {setor} já está em execução")
+                    pass
                 else:
                     atualizar_cache_ligacoes_recuperadas_background(setor)
             
@@ -1225,7 +1236,7 @@ def dados_ligacoes_recuperadas():
                 }
                 dados['setor'] = setor
             
-            app.logger.info(f"📤 Respondendo /api/dados/ligacoes-recuperadas: {len(dados.get('dia', []))} registros para setor {setor}")
+            # app.logger.info(f"📤 Respondendo /api/dados/ligacoes-recuperadas: {len(dados.get('dia', []))} registros para setor {setor}")
             return jsonify(dados)
         else:
             app.logger.error(f"❌ Setor {setor} não encontrado em /api/dados/ligacoes-recuperadas")
@@ -1246,14 +1257,15 @@ def limpar_cache():
                 cache[setor][tipo]['timestamp'] = None
                 cache[setor][tipo]['hash'] = None
         
-        app.logger.info("🧹 Cache limpo com sucesso")
+        # app.logger.info("🧹 Cache limpo com sucesso")
+        pass
         return jsonify({'status': 'success', 'message': 'Cache limpo para todos os setores'})
 
 @app.route('/api/teste-comercial', methods=['GET'])
 def teste_comercial():
     """Teste direto para verificar se a API do Escallo tem dados do comercial"""
     hoje = datetime.now().strftime('%Y-%m-%d')
-    app.logger.info(f"🧪 TESTE COMERCIAL - buscando dados para {hoje}")
+    # app.logger.info(f"🧪 TESTE COMERCIAL - buscando dados para {hoje}")
     
     resultados = buscar_dados_escallo(hoje, hoje)
     
@@ -1275,7 +1287,7 @@ def teste_comercial():
                     'ligacoesOferecidasAtendidas': resultado.get('ligacoesOferecidasAtendidas', 0)
                 })
     
-    app.logger.info(f"🧪 Resultado teste comercial: {len(encontrados)} encontrados")
+    # app.logger.info(f"🧪 Resultado teste comercial: {len(encontrados)} encontrados")
     
     return jsonify({
         'data_consulta': hoje,
